@@ -17,6 +17,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
           >
             <div>{{ issue.id }} - {{ issue.title }}</div>
             <i
+              (click)="deleteIssue(issue.id)"
               class="bi bi-trash-fill fs-5 text-danger"
               style="cursor: pointer;"
             ></i>
@@ -27,7 +28,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
         <button
           class="btn btn-primary w-100 d-flex justify-content-center"
           data-bs-toggle="modal"
-          data-bs-target="#issueModal"
+          [attr.data-bs-target]="'#issueModal-' + id"
         >
           <i class="bi bi-plus fs-8"></i>
           <div class="ms-2">Add an issue!</div>
@@ -37,15 +38,18 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
     <div
       class="modal fade"
-      id="issueModal"
+      [attr.id]="'issueModal-' + id"
       tabindex="-1"
-      aria-labelledby="issueModalLabel"
+      [attr.aria-labelledby]="'issueModalLabel-' + id"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title text-dark" id="issueModalLabel">
+            <h5
+              class="modal-title text-dark"
+              [attr.id]="'issueModalLabel-' + id"
+            >
               New Issue
             </h5>
             <button type="button" class="btn-close" aria-label="Close"></button>
@@ -107,6 +111,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class BoardComponent {
   @Input() title!: string;
+  @Input() id!: number; // Unique ID input
+
   issues: { id: number; title: string; description: string; status: string }[] =
     [
       {
@@ -160,5 +166,9 @@ export class BoardComponent {
       description: '',
       status: 'Open',
     });
+  }
+
+  deleteIssue(issueId: number) {
+    this.issues = this.issues.filter((issue) => issue.id !== issueId);
   }
 }

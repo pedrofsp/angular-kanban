@@ -15,8 +15,8 @@ import { BoardComponent } from '../../components/board-component';
       <div class="container">
         <br />
         <div class="d-flex">
-          <board-component [title]="'titulo 1'"></board-component>
-          <board-component [title]="'titulo 2'"></board-component>
+          <board-component [id]="1" [title]="'titulo 1'"></board-component>
+          <board-component [id]="2" [title]="'titulo 2'"></board-component>
         </div>
       </div>
     </div>
